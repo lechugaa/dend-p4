@@ -13,6 +13,10 @@ os.environ["AWS_SECRET_ACCESS_KEY"] = config["IAM"]["AWS_SECRET_ACCESS_KEY"]
 
 
 def create_spark_session():
+    """
+    Creates a spark session with adequate Hadoop Module configuration
+    :return: spark session
+    """
     spark = SparkSession \
         .builder \
         .config("spark.jars.packages", config["SPARK"]["HADOOP_MODULE"]) \
@@ -21,6 +25,13 @@ def create_spark_session():
 
 
 def process_song_data(spark, song_data_path, output_data_path):
+    """
+    Processes song data located in S3 bucket into analytical tables and writes them down as parquet files
+    back to S3.
+    :param spark: spark session
+    :param song_data_path: string
+    :param output_data_path: string
+    """
 
     # read song data file
     df = spark.read.json(song_data_path, schema=songs_schema)
@@ -44,6 +55,14 @@ def process_song_data(spark, song_data_path, output_data_path):
 
 
 def process_log_data(spark, song_data_path, log_data_path, output_data_path):
+    """
+    Processes song data located in S3 bucket into analytical tables and writes them down as parquet files
+    back to S3.
+    :param spark: spark session
+    :param song_data_path: string
+    :param log_data_path: string
+    :param output_data_path: string
+    """
 
     # read log data file
     df = spark.read.json(log_data_path, schema=logs_schema)
@@ -95,6 +114,13 @@ def process_log_data(spark, song_data_path, log_data_path, output_data_path):
 
 
 def main():
+    """
+    Main function in charge of the following tasks:
+        - Create a Spark session
+        - Obtain adequate paths for input and output data
+        - Process song data
+        - Process log data
+    """
     spark = create_spark_session()
     song_data_path = config["S3"]["SONG_DATA_PATH"]
     log_data_path = config["S3"]["LOG_DATA_PATH"]
