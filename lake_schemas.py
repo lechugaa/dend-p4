@@ -33,7 +33,7 @@ logs_schema = StructType([
         StructField("status", LongType()),
         StructField("ts", LongType()),
         StructField("userAgent", StringType()),
-        StructField("userId", StringType()),
+        StructField("userId", LongType()),
     ])
 
 # table fields
