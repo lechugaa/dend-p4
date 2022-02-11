@@ -70,7 +70,7 @@ If using Python 3.10.2 to execute the scripts,  Hadoop Module 3.3.1 will work fi
 
 ## Execution
 
-In order to create the DWH clone this repo and once you have fulfilled the requirements detailed above run the 
+In order to create the data lake clone this repo and once you have fulfilled the requirements detailed above run the 
 following command:
 
 ```
