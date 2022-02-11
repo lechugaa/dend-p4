@@ -26,13 +26,13 @@ def process_song_data(spark, song_data_path, output_data_path):
     df = spark.read.json(song_data_path, schema=songs_schema)
 
     # extract columns to create songs table
-    songs_df = df.select(*song_fields)
+    songs_df = df.select(*song_fields).distinct()
     
     # write songs table to parquet files partitioned by year and artist
     songs_df.write.mode("overwrite").partitionBy("year", "artist_id").parquet(output_data_path + "songs.parquet")
 
     # extract columns to create artists table
-    artists_df = df.select(*artist_fields)
+    artists_df = df.select(*artist_fields).distinct()
     artists_df = artists_df \
         .withColumnRenamed("artist_name", "name") \
         .withColumnRenamed("artist_location", "location") \
@@ -53,7 +53,7 @@ def process_log_data(spark, song_data_path, log_data_path, output_data_path):
     df = df.withColumn("start_time", to_timestamp(df.ts / 1000)).drop("ts")
 
     # extract columns for users table    
-    users_df = df.select(*user_fields)
+    users_df = df.select(*user_fields).distinct()
     users_df = users_df \
         .withColumnRenamed("userId", "user_id") \
         .withColumnRenamed("firstName", "first_name") \
