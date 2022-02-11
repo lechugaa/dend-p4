@@ -9,7 +9,7 @@ in S3 to satisfy their analytics team requirements. Their data resides in S3, in
 activity on the app, as well as a directory with JSON metadata on the songs in their app.
 
 This ETL obtains the data directly from S3, processes the data into analytics tables following a star schema using 
-Spark, and loads them back into S3 as parquet files.
+Spark, and loads them back into S3 in parquet format.
 
 As the _Sparkify_ team is particularly interested in understanding what songs users are listening to, the data lake was 
 designed to allow simple queries and fast aggregations on song reproductions.
@@ -33,7 +33,7 @@ Raw data is as `json` files are located in AWS S3 buckets with the following end
 The first step in the ETL process consists in ingesting at scale the `json` into a Spark cluster and then processing
 the data into the five analytics tables described above.
 
-Once the data is processed, it writen as parquet files in an S3 bucket specified by the user in the `dl.cfg` file (see
+Once the data is processed, it writen in parquet format in an S3 bucket specified by the user in the `dl.cfg` file (see
 Setup section).
 
 ## Setup

@@ -40,7 +40,7 @@ def process_song_data(spark, song_data_path, output_data_path):
     songs_df = df.select(*song_fields).distinct()
     
     # write songs table to parquet files partitioned by year and artist
-    songs_df.write.mode("overwrite").partitionBy("year", "artist_id").parquet(output_data_path + "songs.parquet")
+    songs_df.write.mode("overwrite").partitionBy("year", "artist_id").parquet(output_data_path + "songs")
 
     # extract columns to create artists table
     artists_df = df.select(*artist_fields).distinct()
@@ -51,7 +51,7 @@ def process_song_data(spark, song_data_path, output_data_path):
         .withColumnRenamed("artist_longitude", "longitude")
     
     # write artists table to parquet files
-    artists_df.write.mode("overwrite").parquet(output_data_path + "artists.parquet")
+    artists_df.write.mode("overwrite").parquet(output_data_path + "artists")
 
 
 def process_log_data(spark, song_data_path, log_data_path, output_data_path):
@@ -79,7 +79,7 @@ def process_log_data(spark, song_data_path, log_data_path, output_data_path):
         .withColumnRenamed("lastName", "last_name")
     
     # write users table to parquet files
-    users_df.write.mode("overwrite").parquet(output_data_path + "users.parquet")
+    users_df.write.mode("overwrite").parquet(output_data_path + "users")
     
     # extract columns to create time table
     time_df = df.select(*time_fields)
@@ -92,7 +92,7 @@ def process_log_data(spark, song_data_path, log_data_path, output_data_path):
         .withColumn("weekday", dayofweek("start_time"))
     
     # write time table to parquet files partitioned by year and month
-    time_df.write.partitionBy("year", "month").mode("overwrite").parquet(output_data_path + "time.parquet")
+    time_df.write.partitionBy("year", "month").mode("overwrite").parquet(output_data_path + "time")
 
     # read in song data to use for songplays table
     song_data_df = spark.read.json(song_data_path, schema=songs_schema)
@@ -110,7 +110,7 @@ def process_log_data(spark, song_data_path, log_data_path, output_data_path):
         .withColumn("month", month("start_time"))
 
     # write songplays table to parquet files partitioned by year and month
-    songplays_df.write.partitionBy("year", "month").mode("overwrite").parquet(output_data_path + "songplays.parquet")
+    songplays_df.write.partitionBy("year", "month").mode("overwrite").parquet(output_data_path + "songplays")
 
 
 def main():
